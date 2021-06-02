@@ -4,7 +4,7 @@ import { Splash } from "./Splash";
 import { Signup } from "./Signup";
 import { Signin } from "./Signin";
 import { NotFound } from "./NotFound";
-import  Home from "./Home";
+import Home from "./Home";
 import { Schedule } from "./Schedule";
 import { CreateTask } from "./CreateTask";
 import { TaskDetail } from "./TaskDetail";
@@ -14,7 +14,7 @@ import { PageWrapperMenu } from "../globalStyles";
 
 const AuthenticatedUser = ({children}) => {
 
-  const {pathname} = useLocation();
+  const {pathname } = useLocation();
 
   useEffect(() => {
     console.log('pathname', pathname);
@@ -22,7 +22,6 @@ const AuthenticatedUser = ({children}) => {
 
   return (
     <Fragment>
-      
       <PageWrapperMenu>
         {children}
       </PageWrapperMenu>
@@ -70,12 +69,12 @@ export const NavigationApp = () => {
           <AuthenticatedUser>
             <Switch>
               <Route exact path="/">
-                <Home title="Task" />
+                <Home title="Tasks" />
               </Route>
-              <Route path="/schedule" >
+              <Route path="/schedule">
                 <Schedule title="Schedules" />
               </Route>
-              <Route path="/create" >
+              <Route path="/create">
                 <CreateTask title="Create new task" />
               </Route>
               <Route path="/detail/:id">

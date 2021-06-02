@@ -1,35 +1,31 @@
 import { useEffect, useState } from "react";
 import { Taks } from "../../components/Task";
 import { TaskFilter } from "./components/TaskFilter";
-import { STATUS_FILTER } from './../../constants/TaskFilterStatus';
+import { STATUS_FILTER } from "./../../constants/TaskFilterStatus";
 import { useFilterStatus } from "../../contexts/FilterStatusContext";
-import {Topbar} from "../../components/Topbar"
-import { connect } from "react-redux"
+import { Topbar } from "./../../components/Topbar";
+import { connect } from "react-redux";
 import { fetchTasks } from "../../store";
 
-const TASK_LIST = [
-
-];
-
-
 const Home = ({ title, tasksData, fetchTasksAction }) => {
-
-  //const [taskList, setTaskList] = useState([]);
+  
   const { currentTaskFilter } = useFilterStatus();
 
   useEffect(() => {
-    console.log('task state from store',tasksData)
+    console.log('task state from store', tasksData);
   }, [tasksData]);
 
   useEffect(() => {
-    fetchTasksAction()
+    fetchTasksAction();
   }, []);
 
   /*useEffect(() => {
     if (currentTaskFilter === STATUS_FILTER.ALL) {
       setTaskList(TASK_LIST);
     } else {
-      const taskFiltered = TASK_LIST.filter(el => el.status === currentTaskFilter);
+      const taskFiltered = TASK_LIST.filter(
+        (el) => el.status === currentTaskFilter
+      );
       setTaskList(taskFiltered);
     }
   }, [currentTaskFilter]);*/
@@ -38,6 +34,12 @@ const Home = ({ title, tasksData, fetchTasksAction }) => {
     <>
       <Topbar title={title} />
       <TaskFilter />
+      {
+        tasksData.loading && <p>Loading...</p>
+      }
+      {
+        tasksData.error && <p>{ tasksData.error }</p>
+      }
       <div>
         {tasksData.tasks.map((item, key) => (
           <Taks key={key} {...item} />
