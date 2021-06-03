@@ -20,23 +20,12 @@ const Home = ({ title, tasksData, fetchTasksAction }) => {
   }, []);
 
   useEffect(() => {
-    if(currentTaskFilter === STATUS_FILTER.ALL){
+    if (currentTaskFilter === STATUS_FILTER.ALL) {
       fetchTasksAction();
-    }else{
-      fetchTasksAction({status:currentTaskFilter})
+    } else {
+      fetchTasksAction({ status: currentTaskFilter });
     }
   }, [currentTaskFilter]);
-
-  /*useEffect(() => {
-    if (currentTaskFilter === STATUS_FILTER.ALL) {
-      setTaskList(TASK_LIST);
-    } else {
-      const taskFiltered = TASK_LIST.filter(
-        (el) => el.status === currentTaskFilter
-      );
-      setTaskList(taskFiltered);
-    }
-  }, [currentTaskFilter]);*/
 
   return (
     <>
