@@ -19,6 +19,14 @@ const Home = ({ title, tasksData, fetchTasksAction }) => {
     fetchTasksAction();
   }, []);
 
+  useEffect(() => {
+    if(currentTaskFilter === STATUS_FILTER.ALL){
+      fetchTasksAction();
+    }else{
+      fetchTasksAction({status:currentTaskFilter})
+    }
+  }, [currentTaskFilter]);
+
   /*useEffect(() => {
     if (currentTaskFilter === STATUS_FILTER.ALL) {
       setTaskList(TASK_LIST);
@@ -57,7 +65,7 @@ const mapStateToProps = state => {
 
 const mapDispacthToProps = dispatch => {
   return {
-    fetchTasksAction: () => dispatch(fetchTasks())
+    fetchTasksAction: (filter) => dispatch(fetchTasks(filter))
   }
 }
 
