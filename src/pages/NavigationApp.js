@@ -10,6 +10,8 @@ import { CreateTask } from "./CreateTask";
 import { TaskDetail } from "./TaskDetail";
 import { Menu } from "../components/Menu";
 import { PageWrapperMenu } from "../globalStyles";
+import { useSelector, useDispatch } from "react-redux";
+import { autologin } from "../store";
 
 
 const AuthenticatedUser = ({children}) => {
@@ -36,24 +38,23 @@ const NotAuthenticatedUser = ({children}) => {
 
 export const NavigationApp = () => {
 
-  const [auth, setAuth] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const userData = useSelector(state => state.user);
+  const dispatch = useDispatch()
 
   useEffect(() => {
     setTimeout(() => {
-      setAuth(false);
-      setIsLoading(false);
-    }, 1000);
+      dispatch(autologin());
+    }, 500);
   }, []);
 
-  if (isLoading) {
+  if (userData.splash) {
     return <Splash />
   }
 
   return (
     <Router>
       {
-        !auth && (
+        !userData.isAuth && (
           <NotAuthenticatedUser>
             <Switch>
               <Route exact path="/" component={Signin} />
@@ -65,7 +66,7 @@ export const NavigationApp = () => {
       }
 
       {
-        auth && (
+        userData.isAuth && (
           <AuthenticatedUser>
             <Switch>
               <Route exact path="/">
