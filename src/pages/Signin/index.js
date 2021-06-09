@@ -45,12 +45,16 @@ export const Signin = () => {
           <Input 
             register={register} 
             name="email" 
-            rules={{ required: true }}
+            rules={{ 
+              required: true ,
+              pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            }}
             label="Email address" 
             type="email" 
             placeholder="Enter your email" 
           />
-          { errors.email?.type === 'required' && <LabelError>Field required</LabelError> }
+          {   errors.email?.type === "required" && <LabelError>Field required</LabelError> }
+          {   errors.email?.type === "pattern" && <LabelError>Email is not valid</LabelError> }
         </FormGroup>
         <FormGroup>
           <Input 

@@ -5,7 +5,10 @@ import {
   FETCH_LOGIN_REQUEST,
   FETCH_LOGIN_SUCCESS,
   AUTOLOGIN_FAILURE,
-  AUTOLOGIN_SUCCESS
+  AUTOLOGIN_SUCCESS,
+  FETCH_USERS_REQUEST,
+  FETCH_USERS_SUCCESS,
+  FETCH_USERS_FAILURE
 } from "./userTypes";
 
 export const fetchLogin = (credentials = {}) => {
@@ -67,3 +70,45 @@ export const autologin = () => {
     if(!token) dispacth(autologinFailure());
   }
 }
+
+export const fetchUsers = () => {
+  return (dispacth) => {
+    dispacth(fetchUserRequest());
+    const callHttp = async () => {
+      try {
+        const token = localStorage.getItem(TOKEN);
+        const response = await requestHttp({
+          method: HTTP_VERBS.GET,
+          token,
+          endpoint: "users/"
+        });
+        
+        dispacth(fetchUserSuccess(response.data));
+      } catch (error) {
+        const messageError = error.response.statusText || 'error ';
+        dispacth(fetchUserFailure(messageError));
+      }
+    };
+    callHttp();
+  };
+};
+
+export const fetchUserRequest = () => {
+  return {
+    type: FETCH_USERS_REQUEST,
+  };
+};
+
+export const fetchUserSuccess = (users) => {
+  return {
+    type: FETCH_USERS_SUCCESS,
+    payload: users,
+  };
+};
+
+export const fetchUserFailure = (error) => {
+  return {
+    type: FETCH_USERS_FAILURE,
+    payload: error,
+  };
+};

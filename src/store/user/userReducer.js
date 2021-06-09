@@ -4,13 +4,17 @@ import {
   FETCH_LOGIN_REQUEST,
   AUTOLOGIN_FAILURE,
   AUTOLOGIN_SUCCESS,
+  FETCH_USERS_REQUEST,
+  FETCH_USERS_SUCCESS,
+  FETCH_USERS_FAILURE
 } from "./userTypes";
 
 const initialState = {
   loading: false,
   isAuth: false,
   error: "",
-  splash: true
+  splash: true,
+  users: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -43,6 +47,24 @@ const reducer = (state = initialState, action) => {
         ...state,
         isAuth:false,
         splash: false
+      };
+    case FETCH_USERS_REQUEST:
+      return{
+        ...state,
+        loading: true
+      };
+    case FETCH_USERS_SUCCESS:
+      return{
+        ...state,
+        isAuth:true,
+        splash: false,
+        users: action.payload
+      };
+    case FETCH_USERS_FAILURE:
+      return{
+        loading: false,
+        error: action.payload,
+        isAuth: false
       };
     default:
       return state;
