@@ -4,7 +4,8 @@ import {
   FETCH_TASKS_SUCCESS,
 } from "./taskTypes";
 import { HTTP_VERBS, requestHttp } from '../../utils/HttpRequest';
-import { TOKEN } from "../../constants/Auth";
+import { TASKS } from "../../constants/HttpEndpoints";
+import { getToken } from "../../utils/LocalStorageToken";
 
 
 export const fetchTasks = (filter = {}) => {
@@ -12,12 +13,12 @@ export const fetchTasks = (filter = {}) => {
     dispacth(fetchTaskRequest());    
     const callHttp = async (filter) => {
       try {
-        const token = localStorage.getItem(TOKEN);
+        const token = getToken(); 
         const response = await requestHttp(
             { 
               method: HTTP_VERBS.GET,
               token,
-              endpoint: 'tasks',
+              endpoint: TASKS.getTasks,
               params: filter
             }
         );

@@ -1,5 +1,4 @@
 import { requestHttp, HTTP_VERBS } from '../../utils/HttpRequest';
-import { TOKEN } from '../../constants/Auth';
 import { Fragment, useEffect } from "react";
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
@@ -11,19 +10,12 @@ import { Textarea } from "./styles";
 import { FormGroup, LabelError } from "../../globalStyles";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers } from "../../store";
+import { getToken } from '../../utils/LocalStorageToken';
 
-/*const USERS = [
-  { value: 1, label: "Juan" },
-  { value: 2, label: "Luis" },
-  { value: 3, label: "Maria" },
-  { value: 4, label: "Jose" },
-  { value: 5, label: "Baltasar" },
-  { value: 6, label: "Gaspar" },
-];*/
 
 const USERS = [];
 
-export const CreateTask = ({ title}) => {
+const CreateTask = ({ title}) => {
 
   const dispatch = useDispatch();
   const usersData = useSelector(state => state.user);
@@ -43,7 +35,7 @@ export const CreateTask = ({ title}) => {
 
     const callHttp = async (data) => {
       try {
-        const token = localStorage.getItem(TOKEN);
+        const token = getToken();
         const response = await requestHttp({
           method: HTTP_VERBS.POST,
           token,
@@ -75,11 +67,12 @@ export const CreateTask = ({ title}) => {
 
   useEffect(() => {
     dispatch(fetchUsers());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if(USERS.length < 1 ){
-      usersData.users.map((item, key) => (
+      usersData.users.map((item) => (
         USERS.push({value:item._id,label:item.name})
       ))
     }
@@ -173,3 +166,4 @@ export const CreateTask = ({ title}) => {
     </Fragment>
   );
 };
+export default CreateTask;

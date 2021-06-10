@@ -4,7 +4,7 @@ import { Topbar } from "../../components/Topbar";
 import { getStatusById } from "../../constants/TaskStatus";
 import { TaskDescription, TaskFooter, TaskDueDate, TaskResponsable, TaskStatusLabel, TaskTitle } from "./styles";
 
-export const TaskDetail = ({title}) => {
+const TaskDetail = ({title}) => {
   const history = useHistory();
   const { id } = useParams();
 
@@ -21,7 +21,7 @@ export const TaskDetail = ({title}) => {
     <Fragment>
       <Topbar isBackVisible={true} onPress={goBackApp} title={title} />
       { renderStatus(2) }
-      <TaskTitle>Titulo</TaskTitle>
+      <TaskTitle>Titulo {id}</TaskTitle>
       <TaskDescription>lorem.....</TaskDescription>
       <TaskFooter>
         <TaskDueDate>3 days left</TaskDueDate>
@@ -30,3 +30,4 @@ export const TaskDetail = ({title}) => {
     </Fragment>
   );
 };
+export default TaskDetail;
