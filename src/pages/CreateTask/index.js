@@ -11,6 +11,8 @@ import { FormGroup, LabelError } from "../../globalStyles";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers } from "../../store";
 import { getToken } from '../../utils/LocalStorageToken';
+import { TASKS } from '../../constants/HttpEndpoints';
+import { fetchCreateTasks } from '../../store/tasks/taskActions';
 
 
 const USERS = [];
@@ -19,6 +21,7 @@ const CreateTask = ({ title}) => {
 
   const dispatch = useDispatch();
   const usersData = useSelector(state => state.user);
+  const task = useSelector(state => state.task);
   
   const {
     register,
@@ -31,15 +34,29 @@ const CreateTask = ({ title}) => {
   } = useForm({ mode: 'onChange' });
 
   const onSubmitCreate = (data) => {
-    console.log("data form", data);
-
+    console.log("crear");
+    const collaborators = [];
+    if(collaborators.length < 1 ){
+      data.collaborators.map((item, key) => (
+        collaborators.push(item.value)
+      ))
+    }
+    const dataSaveTask = {
+      title: data.taskTitle,
+      description: data.description,
+      due_date: data.dueDateTask,
+      responsible: data.responsible.value,
+      collaborators: collaborators
+    }
+    dispatch(fetchCreateTasks(dataSaveTask));
+   /*
     const callHttp = async (data) => {
       try {
         const token = getToken();
         const response = await requestHttp({
           method: HTTP_VERBS.POST,
           token,
-          endpoint: "tasks/create",
+          endpoint: TASKS.createTask,
           data:data
         });
         
@@ -62,7 +79,7 @@ const CreateTask = ({ title}) => {
       responsible: data.responsible.value,
       collaborators: collaborators
     }
-    callHttp(dataSaveTask);
+    callHttp(dataSaveTask);*/
   };
 
   useEffect(() => {
