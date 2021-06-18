@@ -54,7 +54,7 @@ const CreateTask = ({ title}) => {
     if(!tasks.singleTask) return
     const idtask = tasks.singleTask._id
     history.replace({ pathname: `/detail/${idtask}`});
-    console.log(tasks.singleTask);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tasks])
 
   useEffect(() => {
@@ -68,7 +68,6 @@ const CreateTask = ({ title}) => {
         USERS.push({value:item._id,label:item.name})
       ))
     }
-    
   }, [usersData]);
 
 

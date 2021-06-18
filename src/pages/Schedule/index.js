@@ -8,10 +8,12 @@ import { useScreenViewPort } from "../../hooks/useScreenViewPort";
 import { FormGroup } from "../../globalStyles";
 import { Input } from "../../components/Input";
 import { FaSearch } from 'react-icons/fa';
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTasks } from "../../store";
 
 const localizer = momentLocalizer(moment);
 
-const events = [
+var events = [
   {
     title: "Tarea 1",
     start: new Date(),
@@ -29,6 +31,8 @@ const Schedule = ({ title }) => {
   const [calendarDefaultView, setCalendarDefaultView] = useState(CALENDAR_VIEW_MODE.DAY);
   const [loading, setLoading] = useState(true);
   const { screenViewPort } = useScreenViewPort();
+  const dispatch = useDispatch();
+  const tasks = useSelector(state => state.task);
   
   useEffect(() => {
     const boostrap = async () => {
@@ -44,6 +48,29 @@ const Schedule = ({ title }) => {
     }
     boostrap();
   }, [screenViewPort]);
+
+  useEffect(() => {
+    dispatch(fetchTasks());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    events = [
+      {
+        title: "Tarea 1",
+        start: new Date(),
+        end: new Date(),
+      }
+    ];
+    tasks.tasks.forEach(item => {
+      const dataEvents = {
+        title: item.title,
+        start: new Date(item.due_date),
+        end: new Date(item.due_date),
+      }
+      events.push(dataEvents);
+    });
+  }, [tasks])
 
   return (
     <Fragment>

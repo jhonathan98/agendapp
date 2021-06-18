@@ -45,6 +45,7 @@ export const NavigationApp = () => {
     setTimeout(() => {
       dispatch(autologin());
     }, 500);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (userData.splash) {
