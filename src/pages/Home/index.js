@@ -40,9 +40,11 @@ const Home = ({ title, tasksData, fetchTasksAction }) => {
         tasksData.error && <p>{ tasksData.error }</p>
       }
       <div>
-        {tasksData.tasks.map((item, key) => (
+        {
+        tasksData.tasks.map((item, key) => (
           <Taks key={key} {...item} />
-        ))}
+        ))
+        }
       </div>
     </>
   );

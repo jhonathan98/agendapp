@@ -4,7 +4,10 @@ import {
   FETCH_TASKS_SUCCESS,
   FETCH_CREATE_TASKS_REQUEST,
   FETCH_CREATE_TASKS_SUCCESS,
-  FETCH_CREATE_TASKS_FAILURE
+  FETCH_CREATE_TASKS_FAILURE,
+  FETCH_DETAIL_TASKS_REQUEST,
+  FETCH_DETAIL_TASKS_SUCCESS,
+  FETCH_DETAIL_TASKS_FAILURE
 } from "./taskTypes";
 import { HTTP_VERBS, requestHttp } from '../../utils/HttpRequest';
 import { TASKS } from "../../constants/HttpEndpoints";
@@ -91,6 +94,46 @@ export const fetchCreateTaskSuccess = (task) => {
 export const fetchCreateTaskFailure = (error) => {
   return {
     type: FETCH_CREATE_TASKS_FAILURE,
+    payload: error,
+  };
+};
+
+export const fetchDetailTasks = (id="") => {
+  return (dispacth) => {
+    dispacth(fetchDetailTaskRequest());    
+    const callHttp = async (id) => {
+      try {
+        const token = getToken(); 
+        const response = await requestHttp({
+          method: HTTP_VERBS.GET,
+          token,
+          endpoint: TASKS.getTasks+"/"+id
+        });
+        dispacth(fetchDetailTaskSuccess(response.data));
+      } catch (error) {
+        dispacth(fetchDetailTaskFailure(error.response.statusText));
+      }
+    };
+    callHttp(id);
+  };
+};
+
+export const fetchDetailTaskRequest = () => {
+  return {
+    type: FETCH_DETAIL_TASKS_REQUEST,
+  };
+};
+
+export const fetchDetailTaskSuccess = (task) => {
+  return {
+    type: FETCH_DETAIL_TASKS_SUCCESS,
+    payload: task,
+  };
+};
+
+export const fetchDetailTaskFailure = (error) => {
+  return {
+    type: FETCH_DETAIL_TASKS_FAILURE,
     payload: error,
   };
 };

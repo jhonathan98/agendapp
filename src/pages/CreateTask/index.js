@@ -1,4 +1,3 @@
-import { requestHttp, HTTP_VERBS } from '../../utils/HttpRequest';
 import { Fragment, useEffect } from "react";
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
@@ -10,9 +9,8 @@ import { Textarea } from "./styles";
 import { FormGroup, LabelError } from "../../globalStyles";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers } from "../../store";
-import { getToken } from '../../utils/LocalStorageToken';
-import { TASKS } from '../../constants/HttpEndpoints';
 import { fetchCreateTasks } from '../../store/tasks/taskActions';
+import { useHistory } from "react-router-dom";
 
 
 const USERS = [];
@@ -21,8 +19,9 @@ const CreateTask = ({ title}) => {
 
   const dispatch = useDispatch();
   const usersData = useSelector(state => state.user);
-  const task = useSelector(state => state.task);
-  
+  const tasks = useSelector(state => state.task);
+  let history = useHistory();
+
   const {
     register,
     control,
@@ -34,10 +33,10 @@ const CreateTask = ({ title}) => {
   } = useForm({ mode: 'onChange' });
 
   const onSubmitCreate = (data) => {
-    console.log("crear");
+    
     const collaborators = [];
     if(collaborators.length < 1 ){
-      data.collaborators.map((item, key) => (
+      data.collaborators.map((item) => (
         collaborators.push(item.value)
       ))
     }
@@ -49,38 +48,14 @@ const CreateTask = ({ title}) => {
       collaborators: collaborators
     }
     dispatch(fetchCreateTasks(dataSaveTask));
-   /*
-    const callHttp = async (data) => {
-      try {
-        const token = getToken();
-        const response = await requestHttp({
-          method: HTTP_VERBS.POST,
-          token,
-          endpoint: TASKS.createTask,
-          data:data
-        });
-        
-        console.log("Tarea guardada", response.data);
-      } catch (error) {
-        const messageError = error.response.statusText || 'error ';
-        console.log("error al guardar la tarea",messageError);
-      }
-    };
-    const collaborators = [];
-    if(collaborators.length < 1 ){
-      data.collaborators.map((item, key) => (
-        collaborators.push(item.value)
-      ))
-    }
-    const dataSaveTask = {
-      title: data.taskTitle,
-      description: data.description,
-      due_date: data.dueDateTask,
-      responsible: data.responsible.value,
-      collaborators: collaborators
-    }
-    callHttp(dataSaveTask);*/
   };
+
+  useEffect(() => { 
+    if(!tasks.singleTask) return
+    const idtask = tasks.singleTask._id
+    history.replace({ pathname: `/detail/${idtask}`});
+    console.log(tasks.singleTask);
+  }, [tasks])
 
   useEffect(() => {
     dispatch(fetchUsers());

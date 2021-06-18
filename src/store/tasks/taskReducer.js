@@ -4,7 +4,10 @@ import {
   FETCH_TASKS_REQUEST,
   FETCH_CREATE_TASKS_REQUEST,
   FETCH_CREATE_TASKS_SUCCESS,
-  FETCH_CREATE_TASKS_FAILURE
+  FETCH_CREATE_TASKS_FAILURE,
+  FETCH_DETAIL_TASKS_REQUEST,
+  FETCH_DETAIL_TASKS_SUCCESS,
+  FETCH_DETAIL_TASKS_FAILURE
 } from "./taskTypes";
 
 const initialState = {
@@ -40,6 +43,7 @@ const reducer = (state = initialState, action) => {
       };
     case FETCH_CREATE_TASKS_SUCCESS:
       return {
+          ...state,
           loading: false,
           error: "",
           singleTask: action.payload
@@ -49,7 +53,25 @@ const reducer = (state = initialState, action) => {
           loading: false,
           singleTask: [],
           error: action.payload
-      }
+      };
+    case FETCH_DETAIL_TASKS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case FETCH_DETAIL_TASKS_SUCCESS:
+      return {
+          ...state,
+          loading: false,
+          error: "",
+          singleTask: action.payload
+      };
+    case FETCH_DETAIL_TASKS_FAILURE: 
+      return {
+          loading: false,
+          singleTask: [],
+          error: action.payload
+      };
     default: return state;
   }
 };
