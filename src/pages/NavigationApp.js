@@ -13,6 +13,7 @@ const Home = React.lazy(() => import('./Home'));
 const Schedule = React.lazy(() => import('./Schedule'));
 const CreateTask = React.lazy(() => import('./CreateTask'));
 const TaskDetail = React.lazy(() => import('./TaskDetail'));
+const Profile = React.lazy(()=> import('./Profile'));
 
 const AuthenticatedUser = ({children}) => {
 
@@ -82,6 +83,9 @@ export const NavigationApp = () => {
                 </Route>
                 <Route path="/detail/:id">
                   <TaskDetail title="Task detail" />
+                </Route>
+                <Route path="/profile">
+                  <Profile />
                 </Route>
                 <Route path="*" component={NotFound} />
               </Switch>
