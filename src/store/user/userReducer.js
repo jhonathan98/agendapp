@@ -6,7 +6,10 @@ import {
   AUTOLOGIN_SUCCESS,
   FETCH_USERS_REQUEST,
   FETCH_USERS_SUCCESS,
-  FETCH_USERS_FAILURE
+  FETCH_USERS_FAILURE,
+  FETCH_CREATE_USERS_REQUEST,
+  FETCH_CREATE_USERS_SUCCESS,
+  FETCH_CREATE_USERS_FAILURE
 } from "./userTypes";
 
 const initialState = {
@@ -14,7 +17,8 @@ const initialState = {
   isAuth: false,
   error: "",
   splash: true,
-  users: []
+  users: [],
+  singleUser: {},
 };
 
 const reducer = (state = initialState, action) => {
@@ -61,6 +65,25 @@ const reducer = (state = initialState, action) => {
         users: action.payload
       };
     case FETCH_USERS_FAILURE:
+      return{
+        loading: false,
+        error: action.payload,
+        isAuth: false
+      };
+    case FETCH_CREATE_USERS_REQUEST:
+      return{
+        ...state,
+        loading: true
+      };
+    case FETCH_CREATE_USERS_SUCCESS:
+      return{
+        ...state,
+        //isAuth:true,
+        splash: false,
+        loading: false,
+        singleUser: action.payload
+      };
+    case FETCH_CREATE_USERS_FAILURE:
       return{
         loading: false,
         error: action.payload,

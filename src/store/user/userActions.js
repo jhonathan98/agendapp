@@ -7,7 +7,10 @@ import {
   AUTOLOGIN_SUCCESS,
   FETCH_USERS_REQUEST,
   FETCH_USERS_SUCCESS,
-  FETCH_USERS_FAILURE
+  FETCH_USERS_FAILURE,
+  FETCH_CREATE_USERS_REQUEST,
+  FETCH_CREATE_USERS_SUCCESS,
+  FETCH_CREATE_USERS_FAILURE
 } from "./userTypes";
 import { USERS } from '../../constants/HttpEndpoints';
 import { getToken, setToken } from '../../utils/LocalStorageToken';
@@ -122,6 +125,49 @@ export const fetchUserSuccess = (users) => {
 export const fetchUserFailure = (error) => {
   return {
     type: FETCH_USERS_FAILURE,
+    payload: error,
+  };
+};
+
+export const fetchCreateUsers = (dataUser = {}) => {
+  return (dispacth) => {
+    dispacth(fetchCreateUserRequest());
+    const callHttp = async () => {
+      try {
+        const token = getToken();
+        const response = await requestHttp({
+          method: HTTP_VERBS.POST,
+          token,
+          endpoint: USERS.create,
+          data:dataUser
+        });
+        
+        dispacth(fetchCreateUserSuccess(response.data));
+      } catch (error) {
+        const messageError = error.response || 'error ';
+        dispacth(fetchCreateUserFailure(messageError));
+      }dispacth(fetchCreateUserSuccess(dataUser));
+    };
+    callHttp(dataUser);
+  };
+};
+
+export const fetchCreateUserRequest = () => {
+  return {
+    type: FETCH_CREATE_USERS_REQUEST,
+  };
+};
+
+export const fetchCreateUserSuccess = (user) => {
+  return {
+    type: FETCH_CREATE_USERS_SUCCESS,
+    payload: user,
+  };
+};
+
+export const fetchCreateUserFailure = (error) => {
+  return {
+    type: FETCH_CREATE_USERS_FAILURE,
     payload: error,
   };
 };

@@ -1,8 +1,8 @@
 export const USERS = {
     login: 'auth/signin',
     getUsers: 'users',
-    check:'auth/check'
-    
+    check:'auth/check',
+    create:'auth/signup'    
 }
 
 export const TASKS = {
