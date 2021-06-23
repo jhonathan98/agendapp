@@ -9,7 +9,8 @@ import {
   FETCH_USERS_FAILURE,
   FETCH_CREATE_USERS_REQUEST,
   FETCH_CREATE_USERS_SUCCESS,
-  FETCH_CREATE_USERS_FAILURE
+  FETCH_CREATE_USERS_FAILURE,
+  USER_SIGN_OFF
 } from "./userTypes";
 
 const initialState = {
@@ -87,6 +88,13 @@ const reducer = (state = initialState, action) => {
         singleUser: action.payload
       };
     case FETCH_CREATE_USERS_FAILURE:
+      return{
+        ...state,
+        loading: false,
+        error: action.payload,
+        isAuth: false
+      };
+    case USER_SIGN_OFF:
       return{
         ...state,
         loading: false,

@@ -10,7 +10,8 @@ import {
   FETCH_USERS_FAILURE,
   FETCH_CREATE_USERS_REQUEST,
   FETCH_CREATE_USERS_SUCCESS,
-  FETCH_CREATE_USERS_FAILURE
+  FETCH_CREATE_USERS_FAILURE,
+  USER_SIGN_OFF
 } from "./userTypes";
 import { USERS } from '../../constants/HttpEndpoints';
 import { getToken, setToken } from '../../utils/LocalStorageToken';
@@ -169,5 +170,11 @@ export const fetchCreateUserFailure = (error) => {
   return {
     type: FETCH_CREATE_USERS_FAILURE,
     payload: error,
+  };
+};
+
+export const UsersSignOff = () => {
+  return {
+    type: USER_SIGN_OFF,
   };
 };

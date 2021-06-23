@@ -7,3 +7,7 @@ export const getToken = () => {
 export const setToken = (value) => {
     localStorage.setItem(TOKEN,value);
 }
+
+export const signoff = () => {
+    localStorage.clear();
+}
