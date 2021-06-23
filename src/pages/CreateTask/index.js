@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
 import { Topbar } from "../../components/Topbar";
@@ -10,17 +10,14 @@ import { FormGroup, LabelError } from "../../globalStyles";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers } from "../../store";
 import { fetchCreateTasks } from '../../store/tasks/taskActions';
-import { useHistory } from "react-router-dom";
-
-
-const USERS = [];
+import { Redirect } from "react-router-dom";
 
 const CreateTask = ({ title}) => {
 
   const dispatch = useDispatch();
   const usersData = useSelector(state => state.user);
-  const tasks = useSelector(state => state.task);
-  let history = useHistory();
+  const [users, setUsers] = useState([]);
+  const redirectData = useSelector(state => state.redirect);
 
   const {
     register,
@@ -50,26 +47,23 @@ const CreateTask = ({ title}) => {
     dispatch(fetchCreateTasks(dataSaveTask));
   };
 
-  useEffect(() => { 
-    if(!tasks.singleTask) return
-    const idtask = tasks.singleTask._id
-    history.replace({ pathname: `/detail/${idtask}`});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tasks])
-
   useEffect(() => {
     dispatch(fetchUsers());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if(USERS.length < 1 ){
-      usersData.users.map((item) => (
-        USERS.push({value:item._id,label:item.name})
-      ))
-    }
+    const userList = [];
+    usersData.users.map((item) => (
+      userList.push({value:item._id,label:item.name})
+    ))
+    setUsers(userList); 
   }, [usersData]);
 
+
+  if(redirectData.path !== '' ) {
+    return <Redirect to= {{ pathname: redirectData.path }} />
+  }
 
   return (
     <Fragment>
@@ -99,7 +93,7 @@ const CreateTask = ({ title}) => {
               <Select
                 {...field}
                 placeholder="Select responsible"
-                options={USERS}
+                options={users}
               />
             )}
           />
@@ -117,7 +111,7 @@ const CreateTask = ({ title}) => {
                 {...field}
                 isMulti
                 placeholder="Select collaborators"
-                options={USERS}
+                options={users}
               />
             )}
           />

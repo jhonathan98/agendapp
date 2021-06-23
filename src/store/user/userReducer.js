@@ -30,12 +30,14 @@ const reducer = (state = initialState, action) => {
       };
     case FETCH_LOGIN_SUCCESS:
       return {
+        ...state,
         loading: false,
         error: "",
         isAuth: true
       };
     case FETCH_LOGIN_FAILURE:
       return {
+        ...state,
         loading: false,
         error: action.payload,
         isAuth: false
@@ -66,6 +68,7 @@ const reducer = (state = initialState, action) => {
       };
     case FETCH_USERS_FAILURE:
       return{
+        ...state,
         loading: false,
         error: action.payload,
         isAuth: false
@@ -85,6 +88,7 @@ const reducer = (state = initialState, action) => {
       };
     case FETCH_CREATE_USERS_FAILURE:
       return{
+        ...state,
         loading: false,
         error: action.payload,
         isAuth: false

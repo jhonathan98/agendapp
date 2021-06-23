@@ -12,6 +12,7 @@ import {
 import { HTTP_VERBS, requestHttp } from '../../utils/HttpRequest';
 import { TASKS } from "../../constants/HttpEndpoints";
 import { getToken } from "../../utils/LocalStorageToken";
+import { redirect } from "../index";
 
 
 export const fetchTasks = (filter = {}) => {
@@ -70,6 +71,7 @@ export const fetchCreateTasks = (data = {}) => {
           data:data
         });
         dispacth(fetchCreateTaskSuccess(response.data));
+        dispacth(redirect("/"));
       } catch (error) {
         dispacth(fetchCreateTaskFailure(error.response.statusText));
       }

@@ -7,7 +7,7 @@ import { NotFound } from "./NotFound";
 import { Menu } from "../components/Menu";
 import { PageWrapperMenu } from "../globalStyles";
 import { useSelector, useDispatch } from "react-redux";
-import { autologin } from "../store";
+import { autologin, redirectDone } from "../store";
 import { Loading } from "../components/Loading";
 const Home = React.lazy(() => import('./Home'));
 const Schedule = React.lazy(() => import('./Schedule'));
@@ -17,10 +17,13 @@ const Profile = React.lazy(()=> import('./Profile'));
 
 const AuthenticatedUser = ({children}) => {
 
+  const dispatch = useDispatch()
   const {pathname } = useLocation();
 
   useEffect(() => {
     console.log('pathname', pathname);
+    dispatch(redirectDone());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   return (

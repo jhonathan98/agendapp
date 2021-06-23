@@ -13,7 +13,7 @@ import {
 const initialState = {
   loading: false,
   tasks: [],
-  singleTask: [],
+  singleTask: {},
   error: "",
 };
 
@@ -51,7 +51,7 @@ const reducer = (state = initialState, action) => {
     case FETCH_CREATE_TASKS_FAILURE: 
       return {
           loading: false,
-          singleTask: [],
+          singleTask: {},
           error: action.payload
       };
     case FETCH_DETAIL_TASKS_REQUEST:
