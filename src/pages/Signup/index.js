@@ -27,7 +27,7 @@ export const Signup = () => {
     const onSubmitRegister = (data) => {
         console.log("data form register", data);
         dispatch(fetchCreateUsers(data));
-        if(Object.keys(userData.singleUser).length === 0 && userData.error == 'error '){
+        if(Object.keys(userData.singleUser).length === 0 && userData.error === 'error '){
             setMsj('Usuario'+userData.singleUser.name+'registrado correctamente');
         }
     };
@@ -90,7 +90,7 @@ export const Signup = () => {
                 </FormGroup>
                 <Button disabled={!isValid} type="submit" text={ userData.loading ? "Cheking..." : "Sign up" } />
                 {
-                    msj == '' ? '':<LabelError>{msj}</LabelError> 
+                    msj === '' ? '':<LabelError>{msj}</LabelError> 
                 }                
             </form>
         </PageWrapper>
