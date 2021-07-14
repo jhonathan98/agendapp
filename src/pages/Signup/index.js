@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
 import { LinkTo } from "../../components/LinkTo";
@@ -13,6 +13,7 @@ import { fetchCreateUsers } from "../../store/user/userActions";
 export const Signup = () => {
     const dispatch = useDispatch();
     const userData = useSelector(state => state.user);
+    const [msj, setMsj] = useState('');
 
     const {
         register,
@@ -26,6 +27,9 @@ export const Signup = () => {
     const onSubmitRegister = (data) => {
         console.log("data form register", data);
         dispatch(fetchCreateUsers(data));
+        if(Object.keys(userData.singleUser).length === 0 && userData.error == 'error '){
+            setMsj('Usuario'+userData.singleUser.name+'registrado correctamente');
+        }
     };
 
     return (
@@ -86,7 +90,7 @@ export const Signup = () => {
                 </FormGroup>
                 <Button disabled={!isValid} type="submit" text={ userData.loading ? "Cheking..." : "Sign up" } />
                 {
-                    Object.keys(userData.singleUser).length === 0 ? '':<LabelError>Usuario {userData.singleUser.name} registrado correctamente</LabelError> 
+                    msj == '' ? '':<LabelError>{msj}</LabelError> 
                 }                
             </form>
         </PageWrapper>
