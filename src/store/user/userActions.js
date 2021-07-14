@@ -29,7 +29,8 @@ export const fetchLogin = (credentials = {}) => {
         setToken(response.data.token);
         dispacth(fetchLoginSuccess());
       } catch (error) {
-        const messageError = error.response.statusText || 'error ';
+        console.log(error)
+        const messageError = error || 'error ';
         dispacth(fetchLoginFailure(messageError));
       }
     };
